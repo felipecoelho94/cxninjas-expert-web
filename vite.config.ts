@@ -15,4 +15,18 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  // Configuração para garantir que o Vercel possa construir o projeto corretamente
+  build: {
+    outDir: 'dist',
+    sourcemap: true,
+    // Otimizações para o Vercel
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          ui: ['@radix-ui/react-dialog', '@radix-ui/react-tooltip', '@radix-ui/react-toast'],
+        },
+      },
+    },
+  },
 }));

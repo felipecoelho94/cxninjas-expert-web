@@ -62,6 +62,27 @@ This project is built with:
 
 ## How can I deploy this project?
 
+### Deploy on Vercel
+
+This project is optimized for deployment on Vercel. Follow these steps:
+
+1. Push your code to GitHub
+2. Import your repository on [Vercel](https://vercel.com/new)
+3. Configure the following environment variables in the Vercel dashboard:
+   - `VITE_POWER_AUTOMATE_URL`: Your Power Automate Flow URL
+
+### Environment Variables
+
+Copy the `.env.example` file to `.env` and fill in the required values:
+
+```sh
+cp .env.example .env
+```
+
+Then edit the `.env` file with your actual values.
+
+### Alternative Deployment
+
 Simply open [Lovable](https://lovable.dev/projects/d40cfe06-d2a2-4131-b76f-0077a4a8e707) and click on Share -> Publish.
 
 ## Can I connect a custom domain to my Lovable project?
