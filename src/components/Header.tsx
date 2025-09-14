@@ -17,14 +17,15 @@ const Header = () => {
         </div>
         
         <nav className="hidden md:flex items-center gap-8">
-          <a href="#home" className="text-foreground hover:text-ninja-purple transition-colors">
-            Início
-          </a>
+
           <a href="#services" className="text-foreground hover:text-ninja-purple transition-colors">
             Serviços
           </a>
           <a href="#about" className="text-foreground hover:text-ninja-purple transition-colors">
             Sobre
+          </a>
+          <a href="https://tecnasistemas.com/" className="text-foreground hover:text-ninja-purple transition-colors" target="_blank" rel="noopener noreferrer">
+            Tecna Sistemas
           </a>
         </nav>
         

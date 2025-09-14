@@ -40,11 +40,7 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold text-lg mb-4">Links Rápidos</h4>
             <ul className="space-y-3">
-              <li>
-                <a href="#home" className="text-muted-foreground hover:text-ninja-purple transition-colors">
-                  Início
-                </a>
-              </li>
+
               <li>
                 <a href="#services" className="text-muted-foreground hover:text-ninja-purple transition-colors">
                   Serviços
@@ -53,6 +49,11 @@ const Footer = () => {
               <li>
                 <a href="#about" className="text-muted-foreground hover:text-ninja-purple transition-colors">
                   Sobre
+                </a>
+              </li>
+              <li>
+                <a href="https://tecnasistemas.com/" className="text-muted-foreground hover:text-ninja-purple transition-colors" target="_blank" rel="noopener noreferrer">
+                  Tecna Sistemas
                 </a>
               </li>
               <li>
@@ -67,12 +68,20 @@ const Footer = () => {
             <ul className="space-y-3">
               <li className="flex items-center gap-3">
                 <Mail className="h-4 w-4 text-ninja-purple" />
-                <span className="text-muted-foreground text-sm">contato@cxninjas.com</span>
+                <span className="text-muted-foreground text-sm">contato@tecnasistemas.com.br</span>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="h-4 w-4 text-ninja-purple" />
-                <span className="text-muted-foreground text-sm">+55 (11) 9999-9999</span>
+                <span className="text-muted-foreground text-sm">+55 31 3181-1515</span>
               </li>
+              <li className="flex items-start gap-3">
+                <span className="text-muted-foreground text-sm">
+                  Belo Horizonte Av. Augusto de Lima, 479, cj 1805, Centro, Belo Horizonte /MG - CEP: 30190-005
+                </span>
+              </li>
+
+
+
             </ul>
             <Button variant="ninja-outline" size="sm" className="mt-6">
               Fale com nossa equipe

@@ -3,8 +3,84 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Mail, Phone, MapPin, Send } from "lucide-react";
+import React, { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 const Contact = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [company, setCompany] = useState("");
+  const [phone, setPhone] = useState("");
+  const [message, setMessage] = useState("");
+  const [isSending, setIsSending] = useState(false);
+  const { toast } = useToast();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    // Validação básica dos campos obrigatórios
+    if (!name || !email) {
+      toast({
+        title: "Campos obrigatórios",
+        description: "Por favor, preencha pelo menos o nome e email.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // URL do Power Automate Flow
+    const flowUrl = "https://defaultacf7a1732d014ef8b4e6f02ac8045b.fe.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/57efbfc065714a4d9bcc8958bd245121/triggers/manual/paths/invoke/?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=dAN207_P48iFca56F1vPKZFrQkGfKyqB-fkXsfCO4eg";
+
+    try {
+      setIsSending(true);
+      
+      // Dados do contato no formato exato que funcionou no Postman
+      const contactData = {
+        "name": name,
+        "email": email,
+        "company": company,
+        "phone": phone,
+        "message": message
+      };
+
+      const response = await fetch(flowUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(contactData),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Erro ao enviar dados: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log('Resposta do Power Automate:', data);
+
+      toast({
+        title: "Mensagem enviada!",
+        description: "Recebemos sua solicitação e entraremos em contato em breve.",
+      });
+
+      // Limpar o formulário após envio bem-sucedido
+      setName("");
+      setEmail("");
+      setCompany("");
+      setPhone("");
+      setMessage("");
+    } catch (err) {
+      console.error('Erro ao enviar formulário:', err);
+      toast({
+        title: "Falha ao enviar",
+        description: err instanceof Error ? err.message : "Ocorreu um erro ao enviar sua mensagem. Tente novamente.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSending(false);
+    }
+  };
+
   return (
     <section id="contact" className="py-20 bg-gradient-subtle">
       <div className="container mx-auto px-4">
@@ -45,7 +121,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold">Telefone</h3>
-                    <p className="text-muted-foreground">+55 (11) 9999-9999</p>
+                    <p className="text-muted-foreground">+55 (31) 3181-1515</p>
                   </div>
                 </div>
               </CardContent>
@@ -59,7 +135,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold">Localização</h3>
-                    <p className="text-muted-foreground">São Paulo, SP</p>
+                    <p className="text-muted-foreground">Belo Horizonte, MG</p>
                   </div>
                 </div>
               </CardContent>
@@ -84,7 +160,7 @@ const Contact = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-6">
-                <form className="space-y-6">
+                <form className="space-y-6" onSubmit={handleSubmit}>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label htmlFor="name" className="block text-sm font-medium mb-2">
@@ -94,6 +170,9 @@ const Contact = () => {
                         id="name" 
                         placeholder="Seu nome completo"
                         className="bg-background border-border"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        required
                       />
                     </div>
                     <div>
@@ -105,6 +184,9 @@ const Contact = () => {
                         type="email" 
                         placeholder="seu.email@empresa.com"
                         className="bg-background border-border"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
                       />
                     </div>
                   </div>
@@ -118,6 +200,8 @@ const Contact = () => {
                         id="company" 
                         placeholder="Nome da sua empresa"
                         className="bg-background border-border"
+                        value={company}
+                        onChange={(e) => setCompany(e.target.value)}
                       />
                     </div>
                     <div>
@@ -126,8 +210,10 @@ const Contact = () => {
                       </label>
                       <Input 
                         id="phone" 
-                        placeholder="(11) 99999-9999"
+                        placeholder="(31) 3181-1515"
                         className="bg-background border-border"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
                       />
                     </div>
                   </div>
@@ -141,11 +227,13 @@ const Contact = () => {
                       placeholder="Conte-nos sobre seus desafios de Customer Experience..."
                       rows={4}
                       className="bg-background border-border"
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
                     />
                   </div>
 
-                  <Button variant="ninja" size="lg" className="w-full">
-                    Enviar Solicitação
+                  <Button variant="ninja" size="lg" className="w-full" type="submit" disabled={isSending}>
+                    {isSending ? "Enviando..." : "Enviar Solicitação"}
                     <Send className="ml-2 h-5 w-5" />
                   </Button>
                 </form>
