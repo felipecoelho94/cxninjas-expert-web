@@ -1,13 +1,7 @@
 {
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/" }
-  ],
   "routes": [
-    {
-      "src": "/[^.]+",
-      "dest": "/",
-      "status": 200
-    }
+    { "handle": "filesystem" },
+    { "src": "/.*", "dest": "/" }
   ],
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
